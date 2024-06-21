@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-background text-gray-800;
+}
+
+a {
+  @apply text-primary hover:text-secondary;
+}
+
+button {
+  @apply bg-primary text-white hover:bg-secondary;
+}
