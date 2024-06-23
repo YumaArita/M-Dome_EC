@@ -18,6 +18,7 @@ const config: Config = {
         secondary: "#38b2ac",
         accent: "#e53e3e",
         background: "#f7fafc",
+        header_color: "#3399CC",
       },
     },
   },

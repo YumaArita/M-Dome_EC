@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,13 +11,19 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      // err を unknown 型として扱う
+      if (err instanceof Error) {
+        // err が Error インスタンスであるかチェック
+        setError(err.message); // Error インスタンスであればメッセージを設定
+      } else {
+        setError("An unexpected error occurred."); // Error インスタンスでない場合のデフォルトメッセージ
+      }
     }
   };
 
