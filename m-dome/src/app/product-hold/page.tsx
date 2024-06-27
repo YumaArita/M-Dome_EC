@@ -1,8 +1,19 @@
+"use client";
+
+import React from "react";
+import { useUser } from "../context/UserContext";
+
 const ProductHold = () => {
+  const { user } = useUser();
+
   return (
     <div>
-      <h1>商品の取り置き</h1>
-      <p>ここに商品の取り置き内容が表示されます。</p>
+      <h1>Product Hold</h1>
+      {user ? (
+        <p>Welcome, {user.email}</p>
+      ) : (
+        <p>Please log in to hold products.</p>
+      )}
     </div>
   );
 };
