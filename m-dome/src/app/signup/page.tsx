@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useUser } from "../../app/context/UserContext";
 
 interface FirebaseAuthError {
   code: string;
@@ -15,15 +16,21 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { login } = useUser();
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/"); // 登録成功後、ホームページにリダイレクト
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      login(userCredential.user.email || "");
+      router.push("/");
     } catch (err) {
-      const firebaseError = err as FirebaseAuthError; // エラーをFirebaseAuthError型として扱う
-      setError(firebaseError.message); // エラーメッセージをセット
+      const firebaseError = err as FirebaseAuthError;
+      setError(firebaseError.message);
     }
   };
 

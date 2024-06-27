@@ -4,25 +4,30 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
+import { useUser } from "../../app/context/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { login } = useUser();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      login(userCredential.user.email || "");
       router.push("/");
     } catch (err: unknown) {
-      // err を unknown 型として扱う
       if (err instanceof Error) {
-        // err が Error インスタンスであるかチェック
-        setError(err.message); // Error インスタンスであればメッセージを設定
+        setError(err.message);
       } else {
-        setError("An unexpected error occurred."); // Error インスタンスでない場合のデフォルトメッセージ
+        setError("An unexpected error occurred.");
       }
     }
   };

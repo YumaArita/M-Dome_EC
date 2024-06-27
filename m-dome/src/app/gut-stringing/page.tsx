@@ -1,8 +1,19 @@
+"use client";
+
+import React from "react";
+import { useUser } from "../context/UserContext";
+
 const GutStringing = () => {
+  const { user } = useUser();
+
   return (
     <div>
-      <h1>ガット張替え申し込み</h1>
-      <p>ここにガット張替え申し込みの内容が表示されます。</p>
+      <h1>Gut Stringing Application</h1>
+      {user ? (
+        <p>Welcome, {user.email}</p>
+      ) : (
+        <p>Please log in to apply for gut stringing.</p>
+      )}
     </div>
   );
 };

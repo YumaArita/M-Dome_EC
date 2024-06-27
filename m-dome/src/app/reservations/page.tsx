@@ -1,8 +1,19 @@
+"use client";
+
+import React from "react";
+import { useUser } from "../context/UserContext";
+
 const Reservations = () => {
+  const { user } = useUser();
+
   return (
     <div>
-      <h1>振替予約・欠席</h1>
-      <p>ここに予約の内容が表示されます。</p>
+      <h1>Reservations</h1>
+      {user ? (
+        <p>Welcome, {user.email}</p>
+      ) : (
+        <p>Please log in to make reservations.</p>
+      )}
     </div>
   );
 };

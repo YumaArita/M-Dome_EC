@@ -11,5 +11,5 @@ a {
 }
 
 button {
-  @apply bg-primary text-white hover:bg-secondary;
+  @apply text-primary;
 }
